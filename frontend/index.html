@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Frontend</title>
+</head>
+<body>
+  <h1>Hello from Frontend!</h1>
+  <script>
+    // TODO: Change based on your implementation
+    fetch('http://localhost:3000/api')
+      .then(response => response.text())
+      .then(data => {
+        document.body.innerHTML += `<p>${data}</p>`;
+      });
+  </script>
+</body>
+</html>
