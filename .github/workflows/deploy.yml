@@ -62,6 +62,25 @@ jobs:
       run: |
         aws eks --region $AWS_REGION update-kubeconfig --name pagos-test
 
+    - name: Debug kubeconfig
+      run: |
+        kubectl config view
+        kubectl get nodes
+
+    - name: Create db-secret.yaml
+      env:
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: |
+        echo "apiVersion: v1" > k8s/db-secret.yaml
+        echo "kind: Secret" >> k8s/db-secret.yaml
+        echo "metadata:" >> k8s/db-secret.yaml
+        echo "  name: db-secret" >> k8s/db-secret.yaml
+        echo "type: Opaque" >> k8s/db-secret.yaml
+        echo "data:" >> k8s/db-secret.yaml
+        echo "  DB_USERNAME: $(echo -n $DB_USERNAME | base64)" >> k8s/db-secret.yaml
+        echo "  DB_PASSWORD: $(echo -n $DB_PASSWORD | base64)" >> k8s/db-secret.yaml
+
     - name: Deploy to EKS
       env:
         AWS_REGION: "us-west-2"
