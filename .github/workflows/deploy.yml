@@ -84,8 +84,9 @@ jobs:
         BACKEND_IMAGE: "211125660832.dkr.ecr.us-west-2.amazonaws.com/backend:${{ github.sha }}"
         FRONTEND_IMAGE: "211125660832.dkr.ecr.us-west-2.amazonaws.com/frontend:${{ github.sha }}"
       run: |
-        kubectl apply -f k8s/db-secret.yaml
-        kubectl apply -f k8s/backend-deployment.yaml
+        kubectl create secret generic db-secret --from-literal=DB_USERNAME=${{ secrets.DB_USERNAME }} --from-literal=DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+        envsubst < k8s/db-secret.yaml | kubectl apply -f -
+        envsubst < k8s/backend-deployment.yaml | kubectl apply -f -
         kubectl apply -f k8s/backend-service.yaml
-        kubectl apply -f k8s/frontend-deployment.yaml
+        envsubst < k8s/frontend-deployment.yaml | kubectl apply -f -
         kubectl apply -f k8s/frontend-service.yaml
