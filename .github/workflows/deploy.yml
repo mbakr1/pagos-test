@@ -62,11 +62,6 @@ jobs:
       run: |
         aws eks --region $AWS_REGION update-kubeconfig --name pagos-test
 
-    - name: Debug kubeconfig
-      run: |
-        kubectl config view
-        kubectl get nodes
-
     - name: Create db-secret.yaml
       env:
         DB_USERNAME: ${{ secrets.DB_USERNAME }}
