@@ -18,4 +18,4 @@ ENV DB_USERNAME=${DB_USERNAME}
 ENV DB_PASSWORD=${DB_PASSWORD}
 
 # Start the application
-CMD ["node", "app.js"]
+CMD ["node", "index.js"]
